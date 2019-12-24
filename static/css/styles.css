@@ -1,0 +1,172 @@
+@import 'https://fonts.googleapis.com/css?family=Josefin+Sans:100,300&display=swap';
+
+:root {
+  --col1:#F53393;
+  --col2:#F5DE2F;
+  --col3:#27DCF5;
+  --colw:#DDD;
+  --colb:#222;
+  font-size: 40px;
+}
+
+body {
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 100;
+  margin: 0px;
+  transition:all 0.3s ease;
+  background-color: var(--colb);
+  color: var(--colw);
+  font-size: 1.5rem;
+}
+
+header,
+main,
+footer {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 300;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+a {
+  text-decoration: none;
+  color: var(--col5);
+}
+
+a:hover {
+  color: var(--col4);
+}
+
+li {
+  padding-right: 20px;
+  list-style-type: none;
+  font-size: 1.25rem;
+}
+
+ul {
+  text-align: center
+}
+
+pre {
+  border-left: 2px solid var(--col5);
+  padding: 2px 4px;
+  vertical-align: text-bottom;
+  padding: 1rem;
+  background: #f5f7f9;
+  border-bottom: 1px solid #d8dee9;
+  color: #5a6272;
+}
+
+figure {
+  float: center;
+  text-align: center;
+  font-style: italic;
+  font-size: .9rem;
+  text-indent: 0;
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+img {
+  max-width: 90%;
+}
+
+.dot {
+  width: 15vw;
+  height: 15vw;
+  position: absolute;
+  border-radius:50%;
+  line-height:50px;
+  text-align:center;
+  color:#333;
+  display:none;
+  background-position: center;
+  background-size: cover;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.label {
+  display: none;
+}
+
+.menu {
+  top: 50vh;
+  transform: translate(-50%,-50%);
+}
+
+#name {
+  position: absolute;
+  text-align: center;
+  width: 100vw;
+  height: 20vh;
+  top: 30vh;
+  margin: 3vh 0 0 0;
+  font-weight: 300;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 20vmin;
+}
+
+#home {
+  width: 40vmin;
+  height: 40vmin;
+  top: calc(33vh + 20vmin);
+  left: 50vw;
+}
+
+#about {
+  left: 11vw;
+}
+
+#cs {
+  left: 37vw;
+}
+
+#des {
+  left: 63vw;
+}
+
+#bio {
+  left: 89vw;
+}
+/* Color Theme Swatches in Hex */
+.col1 { color: var(--col1); }
+.col2 { color: var(--col2); }
+.col3 { color: var(--col3); }
+
+.bcol1 { background-image: url("../img/col1.png"); }
+.bcol2 { background-image: url("../img/col2.png"); }
+.bcol3 { background-image: url("../img/col3.png"); }
+.bcolw { background-image: url("../img/colw.png"); }
+
+.bcol12 { background-image: url("../img/col12.png"); }
+.bcol23 { background-image: url("../img/col23.png"); }
+.bcol31 { background-image: url("../img/col31.png"); }
+
+.bcol123 { background-image: url("../img/col123.png"); }
