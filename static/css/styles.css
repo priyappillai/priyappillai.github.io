@@ -126,7 +126,7 @@ img {
   text-align: center;
   width: 100vw;
   height: 20vh;
-  top: 30vh;
+  top: 25vh;
   margin: 3vh 0 0 0;
   font-weight: 300;
   font-family: "Josefin Sans", sans-serif;
@@ -136,7 +136,7 @@ img {
 #home {
   width: 40vmin;
   height: 40vmin;
-  top: calc(33vh + 20vmin);
+  top: calc(28vh + 20vmin);
   left: 50vw;
 }
 
