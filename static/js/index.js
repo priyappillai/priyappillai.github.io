@@ -1,9 +1,9 @@
 var transTime = 2
 var rotTime = 90
 
-gsap.to("#home", {duration: 0, display: "block"});
+gsap.to("#home", {duration: 0, display: "block", width: "40vmin", height: "40vmin", top: "calc(36vh + 30vmin)", left: "50vw"});
 gsap.to("#home", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out" });
-let blink = gsap.fromTo("#home", {autoAlpha: .25}, {duration: transTime, autoAlpha: 1, yoyo: true, repeat:-1, ease: "power1.in", repeatDelay:.5 });
+var blink = gsap.fromTo("#home", {autoAlpha: .25}, {duration: transTime, autoAlpha: 1, yoyo: true, repeat:-1, ease: "power1.in", repeatDelay:.5 });
 blink.play();
 
 
@@ -49,7 +49,7 @@ function set_up(elts, placement){
 
 function home(e){
   gsap.to(".menu", {duration: transTime, top: "calc(50vh + 0vmin)", width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
-  gsap.to("h2", {duration: transTime, top: "calc(50vh + 7.5vw)" });
+  gsap.to("h2", {duration: 0, top: "calc(50vh + 7.5vw)" });
   gsap.to("#about .dot", {duration: transTime, left:"15vw" });
   gsap.to("#about h2", {duration: 0, left:"15vw" });
   gsap.to("#cs .dot", {duration: transTime, left:"38.33vw" });
@@ -68,7 +68,7 @@ function first_home(e){
   gsap.to(".menu", {duration: 0, display: "block"});
   gsap.to("h2", {duration: 0, display: "block"});
   gsap.to("h1", {duration: transTime, top: "calc(3vh + 5vmin)", scale:.5});
-  gsap.to("#home", {duration: transTime, top: "calc(4vh + 10vmin)", width: "4vmin", height: "4vmin" });
+  gsap.to("#home", {duration: transTime, top: "calc(4vh + 12vmin)", width: "4vmin", height: "4vmin"});
   gsap.to(".menu", {duration: transTime, autoAlpha: 1, ease: "power1.in", delay: transTime });
   gsap.to(".menu", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", delay: transTime });
   e.target.removeEventListener(e.type, arguments.callee);

@@ -13,7 +13,9 @@ body {
   font-family: "Josefin Sans", sans-serif;
   font-weight: 100;
   margin: 0px;
+  background-color: black;
   background-color: var(--black);
+  color: white;
   color: var(--white);
   font-size: 1.5rem;
 }
@@ -76,19 +78,8 @@ img {
   display: none;
   background-position: center;
   background-size: cover;
-  transform: translateX(-50%);
-  opacity: 0;
-}
-
-.menu {
   transform: translate(-50%,-50%);
-}
-
-#home {
-  width: 40vmin;
-  height: 40vmin;
-  top: calc(36vh + 10vmin);
-  left: 50vw;
+  opacity: 0;
 }
 
 .pink { background-image: url("../img/col1.png"); }
