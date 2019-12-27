@@ -33,9 +33,10 @@ h1 {
   text-align: center;
   width: 100vw;
   height: 20vmin;
-  top: 25vh;
-  margin: 3vh 0 0 0;
+  top: 35vh;
+  margin: 0;
   font-size: 20vmin;
+  transform: translateY(-50%);
 }
 
 h2 {
@@ -86,7 +87,7 @@ img {
 #home {
   width: 40vmin;
   height: 40vmin;
-  top: calc(28vh + 20vmin);
+  top: calc(36vh + 10vmin);
   left: 50vw;
 }
 

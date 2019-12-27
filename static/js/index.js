@@ -1,18 +1,18 @@
-var transTime = 1.75
+var transTime = 2
 var rotTime = 90
 
 gsap.to("#home", {duration: 0, display: "block"});
 gsap.to("#home", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out" });
-let blink = gsap.fromTo("#home", {opacity: .25}, {duration: transTime, opacity: 1, yoyo: true, repeat:-1, ease: "power1.in", repeatDelay:.5 });
+let blink = gsap.fromTo("#home", {autoAlpha: .25}, {duration: transTime, autoAlpha: 1, yoyo: true, repeat:-1, ease: "power1.in", repeatDelay:.5 });
 blink.play();
 
 
 function hover(e) {
-  gsap.to(e.target.nextElementSibling, {duration: transTime, opacity: 1});
+  gsap.to(e.target.nextElementSibling, {duration: transTime, autoAlpha: 1});
 }
 
 function hover_off(e) {
-  gsap.to(e.target.nextElementSibling, {duration: transTime, opacity: 0});
+  gsap.to(e.target.nextElementSibling, {duration: transTime, autoAlpha: 0});
 }
 
 function remove_hovers(elts){
@@ -67,9 +67,9 @@ function first_home(e){
   blink.progress(1);
   gsap.to(".menu", {duration: 0, display: "block"});
   gsap.to("h2", {duration: 0, display: "block"});
-  gsap.to("h1", {duration: transTime, top: "0", fontSize: "10vmin"});
-  gsap.to("#home", {duration: transTime, top: "calc(3vh + 10vmin)", width: "4vmin", height: "4vmin" });
-  gsap.to(".menu", {duration: transTime, opacity: 1, ease: "power1.in", delay: transTime });
+  gsap.to("h1", {duration: transTime, top: "calc(3vh + 5vmin)", scale:.5});
+  gsap.to("#home", {duration: transTime, top: "calc(4vh + 10vmin)", width: "4vmin", height: "4vmin" });
+  gsap.to(".menu", {duration: transTime, autoAlpha: 1, ease: "power1.in", delay: transTime });
   gsap.to(".menu", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", delay: transTime });
   e.target.removeEventListener(e.type, arguments.callee);
   home(e);
