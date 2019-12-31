@@ -1,11 +1,12 @@
-var transTime = 2
-var rotTime = 90
+var transTime = 2;
+var rotTime = 90;
 
 gsap.to("#home", {duration: 0, display: "block", width: "40vmin", height: "40vmin", top: "calc(36vh + 30vmin)", left: "50vw"});
 gsap.to("#home", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out" });
 var blink = gsap.fromTo("#home", {autoAlpha: .25}, {duration: transTime, autoAlpha: 1, yoyo: true, repeat:-1, ease: "power1.in", repeatDelay:.5 });
-var menuElts = document.querySelectorAll(".menu");
+var menuElts = $(".menu");
 var menuPlacement = 20;
+var projPlacement = 25;
 blink.play();
 
 var isMobile = {
@@ -29,7 +30,23 @@ var isMobile = {
   }
 }
 
+function spacing(n, margin) {
+  var spaces = new Array();
+  for(i=0;i<n;i++){
+    spaces.push((margin + (100-2*margin)*i/(n-1)).toString().concat("vw"))
+  }
+  return spaces;
+}
+
+function hide(elt) {
+  gsap.to(elt, {duration: transTime, autoAlpha: 0});
+  gsap.to(elt, {duration: 0, display: "none", delay: transTime});
+}
+
 function hover(e) {
+  if (typeof e.target === "undefined") {
+    gsap.to(e.nextElementSibling, {duration: transTime, autoAlpha: 1});
+  }
   gsap.to(e.target.nextElementSibling, {duration: transTime, autoAlpha: 1});
 }
 
@@ -46,7 +63,6 @@ function removeHovers(elts) {
   for(i=0;i<elts.length;i++){
     if (isMobile.any()) {
       $(elts[i]).off("click");
-      $(elts[i]).on("click", selectWrap);
       $(document).off("click");
     }
     else{
@@ -56,8 +72,9 @@ function removeHovers(elts) {
   }
 }
 
-function select(e, elts, placement) {
+function selectMenu(e, elts, placement) {
   hoverOff(e)
+  removeHovers(elts);
   for(i=0;i<elts.length;i++){
     if (elts[i] == e.target) {
       gsap.to(elts[i], {duration: transTime, 
@@ -70,12 +87,61 @@ function select(e, elts, placement) {
         width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)" })
     }
   }
+}
+
+function selectProj(e, elts, placement) {
+  hoverOff(e)
   removeHovers(elts);
+  for(i=0;i<elts.length;i++){
+    if (elts[i] == e.target) {
+      gsap.to(elts[i], {duration: transTime, 
+        top: "calc(3vh + ".concat(placement.toString()).concat("vmin)"), 
+        width: "calc(0vw + 5vmin)", height: "calc(0vw + 5vmin)", left: "50vw" });
+    }
+    else {
+      hide(elts[i]);
+      hoverOff(elts[i]);
+    }
+  }
 }
 
 function selectWrap(e) {
+  $(".dot").off("click", selectWrap);
   if (e.target.classList.contains("menu")){
-    select(e, menuElts, menuPlacement);
+    selectMenu(e, menuElts, menuPlacement);
+    if (e.target.classList.contains("about")) {
+      hide(".proj");
+      removeHovers($(".proj"));
+    }
+    else {
+      var sectID = e.target.classList[1];
+      var filtProj = (".proj.").concat(sectID);
+      var othProj = ((".proj:not(.").concat(sectID)).concat(")");
+      hide(othProj);
+      removeHovers($(othProj));
+      gsap.to(filtProj, {duration: 0, display: "block"});
+      gsap.to("h3", {duration: 0, display: "block"});
+      gsap.to(filtProj, {duration: transTime, top: "calc(50vh + 0vmin)", width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
+      gsap.to("h3", {duration: 0, top: "calc(50vh + 7.5vw)" });
+      gsap.to(filtProj, {duration: transTime, autoAlpha: 1, ease: "power1.in", delay: transTime });
+      gsap.to(filtProj, {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", delay: transTime });
+      var projElts = $(filtProj);
+      var projSpacing = spacing(projElts.length, 15);
+      for(i=0;i<projElts.length;i++){
+        gsap.to(projElts[i], {duration: transTime, left:projSpacing[i] });
+        gsap.to(projElts[i].nextElementSibling, {duration: 0, left:projSpacing[i] });
+      }
+      setTimeout(function(){ setUp(projElts, projPlacement) },transTime*1000);
+    }
+  }
+  else if (e.target.classList.contains("proj")){
+    selectProj(e, $(".proj"), projPlacement);
+  }
+  if (isMobile.any()) {
+    setTimeout(function () {$(".menu").on("click", selectWrap)}, transTime*1000);
+  }
+  else {
+    setTimeout(function () {$(".dot").on("click", selectWrap)}, transTime*1000);
   }
 }
 
@@ -105,22 +171,21 @@ function setUp(elts, placement) {
     for(i=0;i<elts.length;i++){
       $(elts[i]).on("mouseenter", hover);
       $(elts[i]).on("mouseleave", hoverOff);
-      $(elts[i]).on("click", selectWrap);
     }
   }
 }
 
 function home(e) {
+  hide(".proj");
+  removeHovers($(".proj"));
+  hide("h3");
   gsap.to(".menu", {duration: transTime, top: "calc(50vh + 0vmin)", width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
   gsap.to("h2", {duration: 0, top: "calc(50vh + 7.5vw)" });
-  gsap.to("#about .dot", {duration: transTime, left:"15vw" });
-  gsap.to("#about h2", {duration: 0, left:"15vw" });
-  gsap.to("#cs .dot", {duration: transTime, left:"38.33vw" });
-  gsap.to("#cs h2", {duration: 0, left:"38.33vw" });
-  gsap.to("#des .dot", {duration: transTime, left:"61.67vw" });
-  gsap.to("#des h2", {duration: 0, left:"61.67vw" });
-  gsap.to("#bio .dot", {duration: transTime, left:"85vw" });
-  gsap.to("#bio h2", {duration: 0, left:"85vw" });
+  var menuSpacing = spacing(menuElts.length, 15);
+  for(i=0;i<menuElts.length;i++){
+    gsap.to(menuElts[i], {duration: transTime, left:menuSpacing[i] });
+    gsap.to(menuElts[i].nextElementSibling, {duration: 0, left:menuSpacing[i] });
+  }
   setTimeout(function(){ setUp(menuElts, menuPlacement) },transTime*1000);
 }
 
@@ -139,3 +204,6 @@ function firstHome(e) {
 }
 
 $("#home").on("click", firstHome);
+if (!(isMobile.any())) {
+  $(".dot").on("click", selectWrap);
+}
