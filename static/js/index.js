@@ -1,12 +1,14 @@
-var transTime = 2;
+var transTime = 2.2;
 var rotTime = 90;
 
 gsap.to("#home", {duration: 0, display: "block", width: "40vmin", height: "40vmin", top: "calc(36vh + 30vmin)", left: "50vw"});
 gsap.to("#home", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out" });
 var blink = gsap.fromTo("#home", {autoAlpha: .25}, {duration: transTime, autoAlpha: 1, yoyo: true, repeat:-1, ease: "power1.in", repeatDelay:.5 });
 var menuElts = $(".menu");
+var menuSpacing = spacing(menuElts.length, 15);
 var menuPlacement = 20;
 var projPlacement = 25;
+var sectPlacement = 32;
 blink.play();
 
 var isMobile = {
@@ -72,35 +74,69 @@ function removeHovers(elts) {
   }
 }
 
-function selectMenu(e, elts, placement) {
+function selectMenu(e) {
   hoverOff(e)
-  removeHovers(elts);
-  for(i=0;i<elts.length;i++){
-    if (elts[i] == e.target) {
-      gsap.to(elts[i], {duration: transTime, 
-        top: "calc(3vh + ".concat(placement.toString()).concat("vmin)"), 
-        width: "calc(0vw + 6vmin)", height: "calc(0vw + 6vmin)" })
+  removeHovers(menuElts);
+  for(i=0;i<menuElts.length;i++){
+    if (menuElts[i] == e.target) {
+      gsap.to(menuElts[i], {duration: transTime, 
+        top: "calc(3vh + ".concat(menuPlacement.toString()).concat("vmin)"), 
+        width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)", autoAlpha: 1 })
     }
     else {
-      gsap.to(elts[i], {duration: transTime, 
-        top: "calc(3vh + ".concat(placement.toString()).concat("vmin)"), 
-        width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)" })
+      gsap.to(menuElts[i], {duration: transTime, 
+        top: "calc(3vh + ".concat(menuPlacement.toString()).concat("vmin)"), 
+        width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)", autoAlpha: .25 })
     }
+  }
+  if (e.target.classList.contains("about")) {
+    hide(".proj");
+    removeHovers($(".proj"));
+    gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: 0, top: "calc(3vh + ".concat(sectPlacement.toString()).concat("vmin)")})
+    gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: transTime, autoAlpha: 1, display: "block", delay: transTime})
+    gsap.to("h3", {duration: transTime, autoAlpha: 0});
+  }
+  else {
+    var sectID = e.target.classList[1];
+    var filtProj = (".proj.").concat(sectID);
+    var othProj = ((".proj:not(.").concat(sectID)).concat(")");
+    hide(othProj);
+    hide(".page");
+    removeHovers($(othProj));
+    gsap.to(filtProj, {duration: 0, display: "block"});
+    gsap.to("h3", {duration: 0, display: "block"});
+    gsap.to(filtProj, {duration: transTime, top: "calc(50vh + 0vmin)", width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
+    gsap.to("h3", {duration: 0, top: "calc(50vh + 7.5vw)"});
+    gsap.to(filtProj, {duration: transTime, autoAlpha: 1, ease: "power1.in", delay: transTime });
+    gsap.to(filtProj, {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", delay: transTime });
+    var projElts = $(filtProj);
+    var projSpacing = spacing(projElts.length, 15);
+    for(i=0;i<projElts.length;i++){
+      gsap.to(projElts[i], {duration: transTime, left:projSpacing[i] });
+      gsap.to(projElts[i].nextElementSibling, {duration: transTime, left:projSpacing[i] });
+    }
+    setTimeout(function(){ setUp(projElts, projPlacement) },transTime*1000);
   }
 }
 
-function selectProj(e, elts, placement) {
+function selectProj(e, elts) {
   hoverOff(e)
   removeHovers(elts);
   for(i=0;i<elts.length;i++){
     if (elts[i] == e.target) {
       gsap.to(elts[i], {duration: transTime, 
-        top: "calc(3vh + ".concat(placement.toString()).concat("vmin)"), 
-        width: "calc(0vw + 5vmin)", height: "calc(0vw + 5vmin)", left: "50vw" });
+        top: "calc(3vh + ".concat(projPlacement.toString()).concat("vmin)"), 
+        width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)", left: "50vw" });
     }
     else {
       hide(elts[i]);
       hoverOff(elts[i]);
+    }
+  }
+  for(i=0;i<menuElts.length;i++){
+    var cat = menuElts[i].classList[1];
+    if (e.target.classList.contains(cat)){
+      gsap.to(menuElts[i], {duration: transTime, autoAlpha: 1 })
     }
   }
 }
@@ -108,34 +144,10 @@ function selectProj(e, elts, placement) {
 function selectWrap(e) {
   $(".dot").off("click", selectWrap);
   if (e.target.classList.contains("menu")){
-    selectMenu(e, menuElts, menuPlacement);
-    if (e.target.classList.contains("about")) {
-      hide(".proj");
-      removeHovers($(".proj"));
-    }
-    else {
-      var sectID = e.target.classList[1];
-      var filtProj = (".proj.").concat(sectID);
-      var othProj = ((".proj:not(.").concat(sectID)).concat(")");
-      hide(othProj);
-      removeHovers($(othProj));
-      gsap.to(filtProj, {duration: 0, display: "block"});
-      gsap.to("h3", {duration: 0, display: "block"});
-      gsap.to(filtProj, {duration: transTime, top: "calc(50vh + 0vmin)", width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
-      gsap.to("h3", {duration: 0, top: "calc(50vh + 7.5vw)" });
-      gsap.to(filtProj, {duration: transTime, autoAlpha: 1, ease: "power1.in", delay: transTime });
-      gsap.to(filtProj, {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", delay: transTime });
-      var projElts = $(filtProj);
-      var projSpacing = spacing(projElts.length, 15);
-      for(i=0;i<projElts.length;i++){
-        gsap.to(projElts[i], {duration: transTime, left:projSpacing[i] });
-        gsap.to(projElts[i].nextElementSibling, {duration: 0, left:projSpacing[i] });
-      }
-      setTimeout(function(){ setUp(projElts, projPlacement) },transTime*1000);
-    }
+    selectMenu(e);
   }
   else if (e.target.classList.contains("proj")){
-    selectProj(e, $(".proj"), projPlacement);
+    selectProj(e, $(".proj"));
   }
   if (isMobile.any()) {
     setTimeout(function () {$(".menu").on("click", selectWrap)}, transTime*1000);
@@ -175,13 +187,7 @@ function setUp(elts, placement) {
   }
 }
 
-function home(e) {
-  hide(".proj");
-  removeHovers($(".proj"));
-  hide("h3");
-  gsap.to(".menu", {duration: transTime, top: "calc(50vh + 0vmin)", width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
-  gsap.to("h2", {duration: 0, top: "calc(50vh + 7.5vw)" });
-  var menuSpacing = spacing(menuElts.length, 15);
+function menuSetUp() {
   for(i=0;i<menuElts.length;i++){
     gsap.to(menuElts[i], {duration: transTime, left:menuSpacing[i] });
     gsap.to(menuElts[i].nextElementSibling, {duration: 0, left:menuSpacing[i] });
@@ -189,17 +195,25 @@ function home(e) {
   setTimeout(function(){ setUp(menuElts, menuPlacement) },transTime*1000);
 }
 
+function home(e) {
+  hide(".proj");
+  hide(".page");
+  removeHovers($(".proj"));
+  hide("h3");
+  gsap.to(".menu", {duration: transTime, top: "calc(50vh + 0vmin)", width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)", autoAlpha: 1});
+  menuSetUp()
+}
+
 function firstHome(e) {
   blink.pause();
-  blink.progress(1);
-  gsap.to(".menu", {duration: 0, display: "block"});
-  gsap.to("h2", {duration: 0, display: "block"});
+  gsap.to("h2", {duration: 0, display: "block", top: "calc(50vh + 7.5vw)" });
   gsap.to("h1", {duration: transTime, top: "calc(3vh + 5vmin)", scale:.5});
-  gsap.to("#home", {duration: transTime, top: "calc(4vh + 12vmin)", width: "4vmin", height: "4vmin"});
+  gsap.to("#home", {duration: transTime, top: "calc(4vh + 12vmin)", width: "4vmin", height: "4vmin", autoAlpha: 1});
   gsap.to(".menu", {duration: transTime, autoAlpha: 1, ease: "power1.in", delay: transTime });
+  gsap.to(".menu", {duration: 0, display: "block", top: "calc(50vh + 0vmin)", width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
   gsap.to(".menu", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", delay: transTime });
   $(e.target).off(e.type, arguments.callee);
-  home(e);
+  menuSetUp()
   $(e.target).on("click", home);
 }
 

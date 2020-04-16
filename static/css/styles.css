@@ -1,12 +1,11 @@
-@import 'https://fonts.googleapis.com/css?family=Josefin+Sans:100,300&display=swap';
+@import 'https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i&display=swap';
 
 :root {
   --pink:#F53393;
   --yellow:#F5DE2F;
   --blue:#27DCF5;
   --white:#DDD;
-  --black:#222;
-  font-size: 40px;
+  --black:#14141D;
 }
 
 body {
@@ -17,7 +16,7 @@ body {
   background-color: var(--black);
   color: white;
   color: var(--white);
-  font-size: 1.5rem;
+  font-size: 3vmin;
 }
 
 h1,
@@ -26,15 +25,13 @@ h3,
 h4,
 h5,
 h6 {
-  position: absolute;
-  text-align: center;
-  display: none;
-  opacity: 0;
-  font-weight: 300;
+  font-weight: 100;
   font-family: "Josefin Sans", sans-serif;
 }
 
 h1 {
+  position: absolute;
+  text-align: center;
   display: block;
   opacity: 1;
   width: 100vw;
@@ -46,11 +43,45 @@ h1 {
 }
 
 h2,h3 {
+  position: absolute;
+  text-align: center;
+  display: none;
+  opacity: 0;
   width: 20vw;
   height: 5.5vmin;
   margin: 1.5vh 0 0 0;
   font-size: 5.5vmin;
   transform: translateX(-50%);
+}
+
+h4 {
+  position: relative;
+  font-style: italic;
+  margin: 0;
+  left: 8vw;
+  right: 55vw;
+  font-size: 14vmin;
+  text-align: left;
+  float: left;
+}
+
+p {
+  margin-bottom: 0;
+  float: left;
+  text-align: left;
+  margin-left: 15vw;
+  margin-right: 55vw;
+}
+
+a {
+  color: pink;
+  color: var(--pink);
+}
+
+section {
+  position: absolute;
+  display: none;
+  opacity: 0;
 }
 
 figure {
@@ -63,8 +94,19 @@ figure {
   padding: 0.5rem;
 }
 
-img {
-  max-width: 90%;
+.preview {
+  max-width: 35%;
+  max-height: 60vh;
+  border-radius: 50%;
+  display: block;
+  top: -2vmin;
+  left: 68vw;
+  transform: translateX(-50%);
+  position: absolute;
+}
+
+.logo {
+  opacity: .75;
 }
 
 .dot {
