@@ -58,11 +58,11 @@ h4 {
   position: relative;
   font-style: italic;
   margin: 0;
-  left: 8vw;
-  right: 55vw;
-  font-size: 14vmin;
+  margin-left: 8vw;
+  margin-right: 55vw;
+  font-size: 12vmin;
   text-align: left;
-  float: left;
+  
 }
 
 p {
