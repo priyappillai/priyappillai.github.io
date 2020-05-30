@@ -225,9 +225,15 @@ function firstHome(e) {
   gsap.to(".menu", {duration: transTime, autoAlpha: 1, ease: "power1.in", 
     delay: transTime });
   gsap.to(".menu", {duration: 0, display: "block", top: "calc(50vh + 0vmin)", 
-    width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
+    width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)", 
+    xPercent: "-50", yPercent: "-50", x:0, y:0, z:0,});
   gsap.to(".menu", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", 
     delay: transTime });
+  var projElts = $(".proj");
+  for(i=0;i<projElts.length;i++){
+    gsap.to(projElts[i], {duration: 0, xPercent: "-50", yPercent: "-50", x:0, y:0, z:0, 
+      rotation: Math.floor(Math.random() * 360)});
+  }
   $(e.target).off(e.type, arguments.callee);
   menuSetUp()
   $(e.target).on("click", home);

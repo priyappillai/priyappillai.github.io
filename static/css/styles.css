@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i&display=swap';
+@import 'https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,200,200i&display=swap';
 
 :root {
   --pink:#F53393;
@@ -10,7 +10,7 @@
 
 body {
   font-family: "Josefin Sans", sans-serif;
-  font-weight: 100;
+  font-weight: 200;
   margin: 0px;
   background-color: black;
   background-color: var(--black);
@@ -76,6 +76,14 @@ p {
 a {
   color: pink;
   color: var(--pink);
+  background: -webkit-linear-gradient(left, var(--pink), var(--yellow), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration-line: underline;
+}
+
+a:hover{
+  -webkit-text-fill-color: rgba(0,0,0,.3);
 }
 
 section {
