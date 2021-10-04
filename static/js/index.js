@@ -1,4 +1,4 @@
-var transTime = 2.2;
+var transTime = 1;
 var rotTime = 90;
 
 gsap.to("#home", {duration: 0, display: "block", width: "40vmin", height: "40vmin", 
@@ -98,7 +98,7 @@ function selectMenu(e) {
     gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: 0, 
       top: "calc(3vh + ".concat(sectPlacement.toString()).concat("vmin)")})
     gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: transTime, 
-      autoAlpha: 1, display: "block", delay: transTime})
+      autoAlpha: 1, display: "block"})
   }
   else {
     var sectID = e.target.classList[1];
@@ -112,10 +112,8 @@ function selectMenu(e) {
     gsap.to(filtProj, {duration: transTime, top: "calc(50vh + 0vmin)", 
       width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
     gsap.to("h3", {duration: 0, top: "calc(50vh + 7.5vw)"});
-    gsap.to(filtProj, {duration: transTime, autoAlpha: 1, ease: "power1.in", 
-      delay: transTime });
-    gsap.to(filtProj, {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", 
-      delay: transTime });
+    gsap.to(filtProj, {duration: transTime, autoAlpha: 1, ease: "power1.in"});
+    gsap.to(filtProj, {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out"});
     var projElts = $(filtProj);
     var projSpacing = spacing(projElts.length, 15);
     for(i=0;i<projElts.length;i++){
@@ -137,7 +135,7 @@ function selectProj(e, elts) {
       gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: 0, 
         top: "calc(3vh + ".concat(sectPlacement.toString()).concat("vmin)")})
       gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: transTime, 
-        autoAlpha: 1, display: "block", delay: transTime})
+        autoAlpha: 1, display: "block"})
     }
     else {
       hide(elts[i]);
