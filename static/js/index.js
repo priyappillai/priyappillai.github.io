@@ -277,7 +277,7 @@ async function startUp() {
   transTime = 0;
   await checkPage();
   transTime = defaultTransTime
-  gsap.to("#content", {duration: 0, autoAlpha: 1});
+  gsap.to("#content", {duration: transTime, autoAlpha: 1});
 }
 
 startUp();
