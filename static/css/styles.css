@@ -137,7 +137,7 @@ figure {
 .cs { background-image: url("../img/col1.png"); }
 .des { background-image: url("../img/col2.png"); }
 .bio { background-image: url("../img/col3.png"); }
-.home,.about { background-image: url("../img/colw.png"); }
+#home,#about { background-image: url("../img/colw.png"); }
 
 .cs.des { background-image: url("../img/col12.png"); }
 .des.bio { background-image: url("../img/col23.png"); }

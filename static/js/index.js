@@ -91,7 +91,7 @@ function selectMenu(e) {
         width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)", autoAlpha: .25 })
     }
   }
-  if (e.target.classList.contains("about")) {
+  if (e.target.id == "about") {
     hide(".page");
     hide(".proj");
     removeHovers($(".proj"));
