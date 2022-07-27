@@ -19,6 +19,10 @@ body {
   font-size: 3vmin;
 }
 
+#content {
+  opacity: 0;
+}
+
 h1,
 h2,
 h3,

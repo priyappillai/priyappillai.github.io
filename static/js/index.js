@@ -1,5 +1,9 @@
-var transTime = 1;
-var rotTime = 90;
+gsap.to("#content", {duration: 0, autoAlpha: 0});
+
+var defaultTransTime = 1;
+var defaultRotTime = 90;
+var transTime = defaultTransTime;
+var rotTime = defaultRotTime;
 
 gsap.to("#home", {duration: 0, display: "block", width: "40vmin", height: "40vmin", 
   top: "calc(36vh + 30vmin)", left: "50vw"});
@@ -11,7 +15,7 @@ var menuSpacing = spacing(menuElts.length, 15);
 var menuPlacement = 20;
 var projPlacement = 25;
 var sectPlacement = 32;
-blink.play();
+var page = window.location.hash;
 
 var isMobile = {
   Android: function() {
@@ -77,6 +81,7 @@ function removeHovers(elts) {
 }
 
 function selectMenu(e) {
+  window.location.hash = e.target.id;
   hoverOff(e)
   removeHovers(menuElts);
   for(i=0;i<menuElts.length;i++){
@@ -125,6 +130,7 @@ function selectMenu(e) {
 }
 
 function selectProj(e, elts) {
+  window.location.hash = e.target.id
   hoverOff(e)
   removeHovers(elts);
   for(i=0;i<elts.length;i++){
@@ -205,6 +211,7 @@ function menuSetUp() {
 }
 
 function home(e) {
+  window.location.hash = "";
   hide(".proj");
   hide(".page");
   removeHovers($(".proj"));
@@ -241,3 +248,36 @@ $("#home").on("click", firstHome);
 if (!(isMobile.any())) {
   $(".dot").on("click", selectWrap);
 }
+
+async function checkPage() {
+  if (page != "") {
+      $("#home").click();
+      if ($(page)[0].classList.contains("proj")) {
+        let category = "#" + $(page)[0].classList[1]
+        $(category).off("click");
+        $(category).on("click", selectWrap);
+        $(category).click();
+        if (!isMobile.any()) {
+          setTimeout(function(){removeHovers($(".proj"))}, transTime*1000)
+        };
+      }
+      $(page).off("click");
+      $(page).on("click", selectWrap);
+      $(page).click();
+      if (!isMobile.any()) {
+        setTimeout(function(){removeHovers(menuElts)}, transTime*1000)
+      };
+    }
+  else {
+    blink.play();
+  }
+}
+
+async function startUp() {
+  transTime = 0;
+  await checkPage();
+  transTime = defaultTransTime
+  gsap.to("#content", {duration: 0, autoAlpha: 1});
+}
+
+startUp();
