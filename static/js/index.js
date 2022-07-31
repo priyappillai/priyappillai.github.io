@@ -4,12 +4,10 @@ var defaultTransTime = 1;
 var defaultRotTime = 90;
 var transTime = defaultTransTime;
 var rotTime = defaultRotTime;
+var dotRotation = {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out" } 
 
-gsap.to("#home", {duration: 0, display: "block", width: "40vmin", height: "40vmin", 
-  top: "calc(36vh + 30vmin)", left: "50vw"});
-gsap.to("#home", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out" });
-var blink = gsap.fromTo("#home", {autoAlpha: .25}, {duration: transTime, autoAlpha: 1, 
-  yoyo: true, repeat:-1, ease: "power1.in", repeatDelay:.5 });
+gsap.to("#home", dotRotation);
+
 var menuElts = $(".menu");
 var menuSpacing = spacing(menuElts.length, 15);
 var menuPlacement = 20;
@@ -81,6 +79,7 @@ function removeHovers(elts) {
 }
 
 function selectMenu(e) {
+  gsap.to("#sitelogo", {duration: transTime, top: "0", left:"45vw", scale: .5});
   window.location.hash = e.target.id;
   hoverOff(e)
   removeHovers(menuElts);
@@ -117,8 +116,8 @@ function selectMenu(e) {
     gsap.to(filtProj, {duration: transTime, top: "calc(50vh + 0vmin)", 
       width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
     gsap.to("h3", {duration: 0, top: "calc(50vh + 7.5vw)"});
-    gsap.to(filtProj, {duration: transTime, autoAlpha: 1, ease: "power1.in"});
-    gsap.to(filtProj, {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out"});
+    gsap.to(filtProj, {duration: transTime, autoAlpha: 1});
+    gsap.to(filtProj, dotRotation);
     var projElts = $(filtProj);
     var projSpacing = spacing(projElts.length, 15);
     for(i=0;i<projElts.length;i++){
@@ -216,37 +215,10 @@ function home(e) {
   hide(".page");
   removeHovers($(".proj"));
   hide("h3");
+  gsap.to("#sitelogo", {duration: transTime, top: "10vh", left:"20vw", scale: 1});
   gsap.to(".menu", {duration: transTime, top: "calc(50vh + 0vmin)", 
     width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)", autoAlpha: 1});
   menuSetUp()
-}
-
-function firstHome(e) {
-  blink.pause();
-  gsap.to("h2", {duration: 0, display: "block", top: "calc(50vh + 7.5vw)" });
-  gsap.to("h1", {duration: transTime, top: "calc(3vh + 5vmin)", scale:.5});
-  gsap.to("#home", {duration: transTime, top: "calc(4vh + 12vmin)", width: "4vmin", 
-    height: "4vmin", autoAlpha: 1});
-  gsap.to(".menu", {duration: transTime, autoAlpha: 1, ease: "power1.in", 
-    delay: transTime });
-  gsap.to(".menu", {duration: 0, display: "block", top: "calc(50vh + 0vmin)", 
-    width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)", 
-    xPercent: "-50", yPercent: "-50", x:0, y:0, z:0,});
-  gsap.to(".menu", {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out", 
-    delay: transTime });
-  var projElts = $(".proj");
-  for(i=0;i<projElts.length;i++){
-    gsap.to(projElts[i], {duration: 0, xPercent: "-50", yPercent: "-50", x:0, y:0, z:0, 
-      rotation: Math.floor(Math.random() * 360)});
-  }
-  $(e.target).off(e.type, arguments.callee);
-  menuSetUp()
-  $(e.target).on("click", home);
-}
-
-$("#home").on("click", firstHome);
-if (!(isMobile.any())) {
-  $(".dot").on("click", selectWrap);
 }
 
 async function checkPage() {
@@ -268,16 +240,33 @@ async function checkPage() {
         setTimeout(function(){removeHovers(menuElts)}, transTime*1000)
       };
     }
-  else {
-    blink.play();
-  }
 }
 
 async function startUp() {
+  $("#home").on("click", home);
+  if (!(isMobile.any())) {
+    $(".dot").on("click", selectWrap);
+  }
+
+  gsap.to("h2", {duration: 0, display: "block", top: "calc(50vh + 7.5vw)" });
+  gsap.to(".menu", {duration: 0, autoAlpha: 1 });
+  gsap.to(".menu", {duration: 0, display: "block", top: "calc(50vh + 0vmin)", 
+    width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)", 
+    xPercent: "-50", yPercent: "-50", x:0, y:0, z:0,});
+  gsap.to(".menu", dotRotation);
+  
   transTime = 0;
+  menuSetUp();
   await checkPage();
   transTime = defaultTransTime
+  
   gsap.to("#content", {duration: transTime, autoAlpha: 1});
+  
+  var projElts = $(".proj");
+  for(i=0;i<projElts.length;i++){
+    gsap.to(projElts[i], {duration: 0, xPercent: "-50", yPercent: "-50", x:0, y:0, z:0, 
+      rotation: Math.floor(Math.random() * 360)});
+  }
 }
 
 startUp();

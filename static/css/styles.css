@@ -23,6 +23,17 @@ body {
   opacity: 0;
 }
 
+#sitelogo {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  opacity: 1;
+  top: 10vh;
+  left: 20vw;
+  height: 15vw;
+  width: 60vw;
+}
+
 h1,
 h2,
 h3,
@@ -30,20 +41,17 @@ h4,
 h5,
 h6 {
   font-weight: 100;
-  font-family: "Josefin Sans", sans-serif;
 }
 
 h1 {
+  font-size: 10vw;
   position: absolute;
-  text-align: center;
-  display: block;
-  opacity: 1;
-  width: 100vw;
-  height: 20vmin;
-  top: 35vh;
+  top: 2vw;
+  left: 17vw;
   margin: 0;
-  font-size: 20vmin;
-  transform: translateY(-50%);
+  text-align: left;
+  display: block;
+  white-space: nowrap;
 }
 
 h2,h3 {
@@ -126,8 +134,6 @@ figure {
   height: 15vw;
   position: absolute;
   border-radius: 50%;
-  line-height: 50px;
-  text-align: center;
   color: #333;
   display: none;
   background-position: center;
@@ -141,10 +147,20 @@ figure {
 .cs { background-image: url("../img/col1.png"); }
 .des { background-image: url("../img/col2.png"); }
 .bio { background-image: url("../img/col3.png"); }
-#home,#about { background-image: url("../img/colw.png"); }
+#about { background-image: url("../img/colw.png"); }
 
 .cs.des { background-image: url("../img/col12.png"); }
 .des.bio { background-image: url("../img/col23.png"); }
 .bio.cs { background-image: url("../img/col31.png"); }
 
 .cs.des.bio { background-image: url("../img/col123.png"); }
+
+#home {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  transform: none;
+  background-image: url("../img/col123.png");
+}
