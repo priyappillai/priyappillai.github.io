@@ -9,8 +9,9 @@ var dotRotation = {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.ou
 gsap.to("#home", dotRotation);
 
 var menuElts = $(".menu");
-var menuSpacing = spacing(menuElts.length, 15);
-var menuPlacement = 20;
+var menuSpacing = spacing(menuElts.length, 15, 15);
+var menuHeaderSpacing = spacing(menuElts.length, 10, 50);
+var menuPlacement = 8;
 var projPlacement = 25;
 var sectPlacement = 32;
 var page = window.location.hash;
@@ -36,10 +37,10 @@ var isMobile = {
   }
 }
 
-function spacing(n, margin) {
+function spacing(n, leftmargin, rightmargin) {
   var spaces = new Array();
   for(i=0;i<n;i++){
-    spaces.push((margin + (100-2*margin)*i/(n-1)).toString().concat("vw"))
+    spaces.push((leftmargin + (100-leftmargin-rightmargin)*i/(n-1)).toString().concat("vw"))
   }
   return spaces;
 }
@@ -50,62 +51,64 @@ function hide(elt) {
 }
 
 function hover(e) {
-  if (typeof e.target === "undefined") {
-    gsap.to(e.nextElementSibling, {duration: transTime, autoAlpha: 1});
+  var target = e.target;
+  if (typeof target === "undefined") {
+    target = e;
   }
-  gsap.to(e.target.nextElementSibling, {duration: transTime, autoAlpha: 1});
+  gsap.to(target, {duration: transTime/2, autoAlpha: .5});
+  gsap.to(target.nextElementSibling, {duration: transTime/2, autoAlpha: .5});
 }
 
 function hoverOff(e) {
+  var target = e.target;
   if (typeof e.target === "undefined") {
-    gsap.to(e.nextElementSibling, {duration: transTime, autoAlpha: 0});
+    target = e;
   }
-  else{
-    gsap.to(e.target.nextElementSibling, {duration: transTime, autoAlpha: 0});
-  }
+  gsap.to(target, {duration: transTime/2, autoAlpha: 1});
+  gsap.to(target.nextElementSibling, {duration: transTime/2, autoAlpha: 1});
 }
 
-function removeHovers(elts) {
+function removeHovers(elts, alpha=0) {
   for(i=0;i<elts.length;i++){
-    if (isMobile.any()) {
-      $(elts[i]).off("click");
-      $(document).off("click");
-    }
-    else{
-      $(elts[i]).off("mouseenter", hover);
-      $(elts[i]).off("mouseleave", hoverOff);
-    }
+    gsap.to(elts[i].nextElementSibling, {duration: transTime, autoAlpha: alpha})
+    $(elts[i]).off("mouseenter", hover);
+    $(elts[i]).off("mouseleave", hoverOff);
+    $(elts[i].nextElementSibling).off("click");
   }
 }
 
 function selectMenu(e) {
+  var target = e.target;
+  if (typeof(target) === "undefined") {
+    target = e;
+  }
   gsap.to("#sitelogo", {duration: transTime, top: "0", left:"45vw", scale: .5});
-  window.location.hash = e.target.id;
+  window.location.hash = target.id;
   hoverOff(e)
   removeHovers(menuElts);
   for(i=0;i<menuElts.length;i++){
-    if (menuElts[i] == e.target) {
-      gsap.to(menuElts[i], {duration: transTime, 
-        top: "calc(3vh + ".concat(menuPlacement.toString()).concat("vmin)"), 
-        width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)", autoAlpha: 1 })
+    gsap.to(menuElts[i], {duration: transTime, 
+      top: menuPlacement.toString().concat("vw"), 
+      width: "3vw", height: "3vw", 
+      left: menuHeaderSpacing[i] })
+    if (menuElts[i] == target) {
+      gsap.to(menuElts[i], {duration: transTime, autoAlpha: 1 })
     }
     else {
-      gsap.to(menuElts[i], {duration: transTime, 
-        top: "calc(3vh + ".concat(menuPlacement.toString()).concat("vmin)"), 
-        width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)", autoAlpha: .25 })
+      gsap.to(menuElts[i], {duration: transTime, autoAlpha: .25 })
     }
   }
-  if (e.target.id == "about") {
+  if (target.id == "about") {
     hide(".page");
     hide(".proj");
     removeHovers($(".proj"));
-    gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: 0, 
+    gsap.to(target.nextElementSibling.nextElementSibling, {duration: 0, 
       top: "calc(3vh + ".concat(sectPlacement.toString()).concat("vmin)")})
-    gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: transTime, 
+    gsap.to(target.nextElementSibling.nextElementSibling, {duration: transTime, 
       autoAlpha: 1, display: "block"})
   }
   else {
-    var sectID = e.target.classList[1];
+    var sectID = target.classList[1];
     var filtProj = (".proj.").concat(sectID);
     var othProj = ((".proj:not(.").concat(sectID)).concat(")");
     hide(othProj);
@@ -119,27 +122,32 @@ function selectMenu(e) {
     gsap.to(filtProj, {duration: transTime, autoAlpha: 1});
     gsap.to(filtProj, dotRotation);
     var projElts = $(filtProj);
-    var projSpacing = spacing(projElts.length, 15);
+    var projSpacing = spacing(projElts.length, 15, 15);
     for(i=0;i<projElts.length;i++){
       gsap.to(projElts[i], {duration: transTime, left:projSpacing[i] });
       gsap.to(projElts[i].nextElementSibling, {duration: transTime, left:projSpacing[i] });
     }
-    setTimeout(function(){ setUp(projElts, projPlacement) },transTime*1000);
+    setTimeout(function(){ setUpHovers(projElts) },transTime*1000);
+    setTimeout(function(){ setUpHovers($("#home")) },transTime*1000);
   }
 }
 
 function selectProj(e, elts) {
-  window.location.hash = e.target.id
+  var target = e.target;
+  if (typeof(target) === "undefined") {
+    target = e;
+  }
+  window.location.hash = target.id
   hoverOff(e)
   removeHovers(elts);
   for(i=0;i<elts.length;i++){
-    if (elts[i] == e.target) {
-      gsap.to(e.target, {duration: transTime, 
+    if (elts[i] == target) {
+      gsap.to(target, {duration: transTime, 
         top: "calc(3vh + ".concat(projPlacement.toString()).concat("vmin)"), 
         width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)", left: "50vw" });
-      gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: 0, 
+      gsap.to(target.nextElementSibling.nextElementSibling, {duration: 0, 
         top: "calc(3vh + ".concat(sectPlacement.toString()).concat("vmin)")})
-      gsap.to(e.target.nextElementSibling.nextElementSibling, {duration: transTime, 
+      gsap.to(target.nextElementSibling.nextElementSibling, {duration: transTime, 
         autoAlpha: 1, display: "block"})
     }
     else {
@@ -149,55 +157,35 @@ function selectProj(e, elts) {
   }
   for(i=0;i<menuElts.length;i++){
     var cat = menuElts[i].classList[1];
-    if (e.target.classList.contains(cat)){
+    if (target.classList.contains(cat)){
       gsap.to(menuElts[i], {duration: transTime, autoAlpha: 1 })
     }
   }
 }
 
 function selectWrap(e) {
+  var target = e.target;
+  if (typeof(target) === "undefined") {
+    target = e;
+  }
   $(".dot").off("click", selectWrap);
-  if (e.target.classList.contains("menu")){
+  if (target.classList.contains("menu")){
     selectMenu(e);
   }
-  else if (e.target.classList.contains("proj")){
+  else if (target.classList.contains("proj")){
     selectProj(e, $(".proj"));
   }
-  if (isMobile.any()) {
-    setTimeout(function () {$(".menu").on("click", selectWrap)}, transTime*1000);
-  }
   else {
-    setTimeout(function () {$(".dot").on("click", selectWrap)}, transTime*1000);
+    home(e);
   }
+  setTimeout(function () {$(".dot").on("click", selectWrap)}, transTime*1000);
 }
 
-function hoverWrap(e) {
-  hover(e);
-  $(e.target).off(e.type);
-  $(e.target).on("click", selectWrap);
-}
-
-function setUp(elts, placement) {
-  if (isMobile.any()) {
-    $(document).on("click", function(e) {
-      for(i=0;i<elts.length;i++) {
-        if (e.target != elts[i]) {
-          hoverOff(elts[i]);
-          $(elts[i]).off("click");
-          $(elts[i]).on("click", hoverWrap);
-        }
-      }
-    });
-    for(i=0;i<elts.length;i++){
-      $(elts[i]).off("click");
-      $(elts[i]).on("click", hoverWrap);
-    }
-  }
-  else {
-    for(i=0;i<elts.length;i++){
-      $(elts[i]).on("mouseenter", hover);
-      $(elts[i]).on("mouseleave", hoverOff);
-    }
+function setUpHovers(elts) {
+  for(i=0;i<elts.length;i++){
+    $(elts[i]).on("mouseenter", hover);
+    $(elts[i]).on("mouseleave", hoverOff);
+    $(elts[i].nextElementSibling).on("click", function(e) {console.log(e); selectWrap(e.target.previousElementSibling);});
   }
 }
 
@@ -205,8 +193,10 @@ function menuSetUp() {
   for(i=0;i<menuElts.length;i++){
     gsap.to(menuElts[i], {duration: transTime, left:menuSpacing[i] });
     gsap.to(menuElts[i].nextElementSibling, {duration: 0, left:menuSpacing[i] });
+    gsap.to(menuElts[i].nextElementSibling, {duration: transTime, autoAlpha: 1 });
   }
-  setTimeout(function(){ setUp(menuElts, menuPlacement) },transTime*1000);
+  setTimeout(function(){ setUpHovers(menuElts) },transTime*1000);
+  setTimeout(function(){ removeHovers($("#home"), alpha=1) },transTime*1000);
 }
 
 function home(e) {
@@ -243,10 +233,7 @@ async function checkPage() {
 }
 
 async function startUp() {
-  $("#home").on("click", home);
-  if (!(isMobile.any())) {
-    $(".dot").on("click", selectWrap);
-  }
+  $(".dot").on("click", selectWrap);
 
   gsap.to("h2", {duration: 0, display: "block", top: "calc(50vh + 7.5vw)" });
   gsap.to(".menu", {duration: 0, autoAlpha: 1 });

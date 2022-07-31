@@ -132,7 +132,7 @@ figure {
 .dot {
   width: 15vw;
   height: 15vw;
-  position: absolute;
+  position: fixed;
   border-radius: 50%;
   color: #333;
   display: none;
