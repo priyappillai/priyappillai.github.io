@@ -60,9 +60,9 @@ h2,h3 {
   display: none;
   opacity: 0;
   width: 20vw;
-  height: 5.5vmin;
+  height: 4vw;
   margin: 1.5vh 0 0 0;
-  font-size: 5.5vmin;
+  font-size: 4vw;
   transform: translateX(-50%);
 }
 

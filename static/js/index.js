@@ -1,12 +1,8 @@
-gsap.to("#content", {duration: 0, autoAlpha: 0});
-
-var defaultTransTime = 1;
+var defaultTransTime = .8;
 var defaultRotTime = 90;
 var transTime = defaultTransTime;
 var rotTime = defaultRotTime;
 var dotRotation = {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.out" } 
-
-gsap.to("#home", dotRotation);
 
 var menuElts = $(".menu");
 var menuSpacing = spacing(menuElts.length, 15, 15);
@@ -55,8 +51,8 @@ function hover(e) {
   if (typeof target === "undefined") {
     target = e;
   }
-  gsap.to(target, {duration: transTime/2, autoAlpha: .5});
-  gsap.to(target.nextElementSibling, {duration: transTime/2, autoAlpha: .5});
+  gsap.to(target, {duration: transTime/3, autoAlpha: .6});
+  gsap.to(target.nextElementSibling, {duration: transTime/3, autoAlpha: .6});
 }
 
 function hoverOff(e) {
@@ -64,8 +60,8 @@ function hoverOff(e) {
   if (typeof e.target === "undefined") {
     target = e;
   }
-  gsap.to(target, {duration: transTime/2, autoAlpha: 1});
-  gsap.to(target.nextElementSibling, {duration: transTime/2, autoAlpha: 1});
+  gsap.to(target, {duration: transTime/3, autoAlpha: 1});
+  gsap.to(target.nextElementSibling, {duration: transTime/3, autoAlpha: 1});
 }
 
 function removeHovers(elts, alpha=0) {
@@ -108,7 +104,10 @@ function selectMenu(e) {
       autoAlpha: 1, display: "block"})
   }
   else {
-    var sectID = target.classList[1];
+    var sectID = "proj";
+    if (target.classList.length <= 3) {
+      sectID = target.classList[1];
+    }
     var filtProj = (".proj.").concat(sectID);
     var othProj = ((".proj:not(.").concat(sectID)).concat(")");
     hide(othProj);
@@ -159,6 +158,8 @@ function selectProj(e, elts) {
     var cat = menuElts[i].classList[1];
     if (target.classList.contains(cat)){
       gsap.to(menuElts[i], {duration: transTime, autoAlpha: 1 })
+    } else {
+      gsap.to(menuElts[i], {duration: transTime, autoAlpha: 0.25 })
     }
   }
 }
@@ -207,7 +208,7 @@ function home(e) {
   hide("h3");
   gsap.to("#sitelogo", {duration: transTime, top: "10vh", left:"20vw", scale: 1});
   gsap.to(".menu", {duration: transTime, top: "calc(50vh + 0vmin)", 
-    width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)", autoAlpha: 1});
+    width: "calc(10vw + 0vmin)", height: "calc(10vw + 0vmin)", autoAlpha: 1});
   menuSetUp()
 }
 
@@ -235,11 +236,13 @@ async function checkPage() {
 async function startUp() {
   $(".dot").on("click", selectWrap);
 
-  gsap.to("h2", {duration: 0, display: "block", top: "calc(50vh + 7.5vw)" });
+  gsap.to("h2", {duration: 0, display: "block", top: "calc(50vh + 5vw)" });
   gsap.to(".menu", {duration: 0, autoAlpha: 1 });
   gsap.to(".menu", {duration: 0, display: "block", top: "calc(50vh + 0vmin)", 
-    width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)", 
+    width: "calc(10vw + 0vmin)", height: "calc(10vw + 0vmin)", 
     xPercent: "-50", yPercent: "-50", x:0, y:0, z:0,});
+
+  gsap.to("#home", dotRotation);
   gsap.to(".menu", dotRotation);
   
   transTime = 0;
