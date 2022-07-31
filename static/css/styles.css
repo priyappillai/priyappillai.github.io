@@ -32,6 +32,7 @@ body {
   left: 20vw;
   height: 15vw;
   width: 60vw;
+  z-index: 2;
 }
 
 h1,
@@ -54,16 +55,30 @@ h1 {
   white-space: nowrap;
 }
 
-h2,h3 {
+h2 {
   position: absolute;
   text-align: center;
-  display: none;
+  display: block;
   opacity: 0;
   width: 20vw;
   height: 4vw;
   margin: 1.5vh 0 0 0;
   font-size: 4vw;
   transform: translateX(-50%);
+}
+
+h3 {
+  position: absolute;
+  text-align: left;
+  display: none;
+  opacity: 0;
+  width: 70vw;
+  height: 9vw;
+  line-height: 9vw;
+  margin: 0;
+  padding: 0 0 2vw 0;
+  font-size: 4.5vw;
+  vertical-align: middle;
 }
 
 h4 {
@@ -130,12 +145,8 @@ figure {
 }
 
 .dot {
-  width: 15vw;
-  height: 15vw;
-  position: fixed;
   border-radius: 50%;
   color: #333;
-  display: none;
   background-position: center;
   background-size: cover;
   transform: translate(-50%,-50%);
@@ -156,11 +167,35 @@ figure {
 .cs.des.bio { background-image: url("../img/col123.png"); }
 
 #home {
-  display: block;
+  width: 15vw;
+  height: 15vw;
   position: absolute;
   top: 0;
   left: 0;
   opacity: 1;
   transform: none;
   background-image: url("../img/col123.png");
+}
+
+.menu {
+  width: 10vw;
+  height: 10vw;
+  position: fixed;
+  z-index: 2;
+}
+
+.proj {
+  display: none;
+  width: 9vw;
+  height: 9vw;
+  position: absolute;
+}
+
+#header-back {
+  background-image: linear-gradient(var(--black), var(--black), var(--black), rgba(20, 20, 29, 0));
+  top: 0;
+  width: 100%;
+  height: 18vw;
+  position: fixed;
+  z-index: 1;
 }

@@ -7,8 +7,9 @@ var dotRotation = {duration: rotTime, rotation: 360, repeat:-1, ease: "linear.ou
 var menuElts = $(".menu");
 var menuSpacing = spacing(menuElts.length, 15, 15);
 var menuHeaderSpacing = spacing(menuElts.length, 10, 50);
-var menuPlacement = 8;
-var projPlacement = 25;
+var menuYPlacement = "8vw";
+var projXPlacement = 22;
+var projYPlacement = 20;
 var sectPlacement = 32;
 var page = window.location.hash;
 
@@ -33,10 +34,10 @@ var isMobile = {
   }
 }
 
-function spacing(n, leftmargin, rightmargin) {
+function spacing(n, firstmargin, secondmargin, total=100, unit="vw") {
   var spaces = new Array();
   for(i=0;i<n;i++){
-    spaces.push((leftmargin + (100-leftmargin-rightmargin)*i/(n-1)).toString().concat("vw"))
+    spaces.push((firstmargin + (total-firstmargin-secondmargin)*i/(n-1)).toString().concat(unit))
   }
   return spaces;
 }
@@ -83,8 +84,8 @@ function selectMenu(e) {
   removeHovers(menuElts);
   for(i=0;i<menuElts.length;i++){
     gsap.to(menuElts[i], {duration: transTime, 
-      top: menuPlacement.toString().concat("vw"), 
-      width: "3vw", height: "3vw", 
+      top: menuYPlacement, 
+      scale: .3, 
       left: menuHeaderSpacing[i] })
     if (menuElts[i] == target) {
       gsap.to(menuElts[i], {duration: transTime, autoAlpha: 1 })
@@ -96,11 +97,13 @@ function selectMenu(e) {
   if (target.id == "about") {
     hide(".page");
     hide(".proj");
+    hide("h3");
     removeHovers($(".proj"));
     gsap.to(target.nextElementSibling.nextElementSibling, {duration: 0, 
       top: "calc(3vh + ".concat(sectPlacement.toString()).concat("vmin)")})
     gsap.to(target.nextElementSibling.nextElementSibling, {duration: transTime, 
       autoAlpha: 1, display: "block"})
+    var projElts = $(".proj"); 
   }
   else {
     var sectID = "proj";
@@ -112,18 +115,21 @@ function selectMenu(e) {
     hide(othProj);
     hide(".page");
     removeHovers($(othProj));
-    gsap.to(filtProj, {duration: 0, display: "block"});
-    gsap.to("h3", {duration: 0, display: "block"});
-    gsap.to(filtProj, {duration: transTime, top: "calc(50vh + 0vmin)", 
-      width: "calc(15vw + 0vmin)", height: "calc(15vw + 0vmin)"});
-    gsap.to("h3", {duration: 0, top: "calc(50vh + 7.5vw)"});
-    gsap.to(filtProj, {duration: transTime, autoAlpha: 1});
     gsap.to(filtProj, dotRotation);
     var projElts = $(filtProj);
-    var projSpacing = spacing(projElts.length, 15, 15);
+    var projTop = projYPlacement;
     for(i=0;i<projElts.length;i++){
-      gsap.to(projElts[i], {duration: transTime, left:projSpacing[i] });
-      gsap.to(projElts[i].nextElementSibling, {duration: transTime, left:projSpacing[i] });
+      gsap.to(projElts[i], {duration: transTime, top: projTop.toString().concat("vw"), 
+        left: projXPlacement.toString().concat("vw"), scale: 1, autoAlpha: 1, display: "block" });
+      gsap.to(projElts[i].nextElementSibling, {duration: transTime, top: (projTop - 4.5).toString().concat("vw"),
+        left: (projXPlacement + 6).toString().concat("vw"), autoAlpha: 1, display: "block"});
+      projTop += 13;
+    }
+    othProjElts = $(othProj);
+    for(i=0;i<othProjElts.length;i++){
+      gsap.to(othProjElts[i], {duration: transTime, top: projYPlacement.toString().concat("vw")});
+      gsap.to(othProjElts[i].nextElementSibling, {duration: transTime, top: (projYPlacement - 4.5).toString().concat("vw"),
+        left: (projXPlacement + 6).toString().concat("vw")});
     }
     setTimeout(function(){ setUpHovers(projElts) },transTime*1000);
     setTimeout(function(){ setUpHovers($("#home")) },transTime*1000);
@@ -206,8 +212,8 @@ function home(e) {
   removeHovers($(".proj"));
   hide("h3");
   gsap.to("#sitelogo", {duration: transTime, top: "10vh", left:"20vw", scale: 1});
-  gsap.to(".menu", {duration: transTime, top: "calc(50vh + 0vmin)", 
-    width: "calc(10vw + 0vmin)", height: "calc(10vw + 0vmin)", autoAlpha: 1});
+  gsap.to(".menu", {duration: transTime, top: "calc(55vh + 0vmin)", 
+    scale: 1, autoAlpha: 1});
   menuSetUp()
 }
 
@@ -235,11 +241,15 @@ async function checkPage() {
 async function startUp() {
   $(".dot").on("click", selectWrap);
 
-  gsap.to("h2", {duration: 0, display: "block", top: "calc(50vh + 5vw)" });
+  gsap.to("h2", {duration: 0, top: "calc(55vh + 5vw)" });
   gsap.to(".menu", {duration: 0, autoAlpha: 1 });
-  gsap.to(".menu", {duration: 0, display: "block", top: "calc(50vh + 0vmin)", 
-    width: "calc(10vw + 0vmin)", height: "calc(10vw + 0vmin)", 
-    xPercent: "-50", yPercent: "-50", x:0, y:0, z:0,});
+  gsap.to(".menu", {duration: 0, top: "calc(55vh + 0vmin)",
+    xPercent: "-50", yPercent: "-50", x:0, y:0, z:0});
+
+  gsap.to(".proj", {duration: 0, top: projYPlacement.toString().concat("vw"),
+    left: projXPlacement.toString().concat("vw")});
+  gsap.to("h3", {duration: 0, top: (projYPlacement - 4.5).toString().concat("vw"),
+    left: (projXPlacement + 6).toString().concat("vw")});
 
   gsap.to("#home", dotRotation);
   gsap.to(".menu", dotRotation);
