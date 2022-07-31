@@ -80,7 +80,6 @@ function selectMenu(e) {
   }
   gsap.to("#sitelogo", {duration: transTime, top: "0", left:"45vw", scale: .5});
   window.location.hash = target.id;
-  hoverOff(e)
   removeHovers(menuElts);
   for(i=0;i<menuElts.length;i++){
     gsap.to(menuElts[i], {duration: transTime, 
