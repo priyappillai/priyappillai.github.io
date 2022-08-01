@@ -10,7 +10,7 @@ var menuHeaderSpacing = spacing(menuElts.length, 10, 50);
 var menuYPlacement = "8vw";
 var projXPlacement = 22;
 var projYPlacement = 20;
-var sectPlacement = 32;
+var sectPlacement = 28;
 var page = window.location.hash;
 
 var isMobile = {
@@ -100,7 +100,7 @@ function selectMenu(e) {
     hide("h3");
     removeHovers($(".proj"));
     gsap.to(target.nextElementSibling.nextElementSibling, {duration: 0, 
-      top: "calc(3vh + ".concat(sectPlacement.toString()).concat("vmin)")})
+      top: projYPlacement.toString().concat("vw")})
     gsap.to(target.nextElementSibling.nextElementSibling, {duration: transTime, 
       autoAlpha: 1, display: "block"})
     var projElts = $(".proj"); 
@@ -142,21 +142,25 @@ function selectProj(e, elts) {
     target = e;
   }
   window.location.hash = target.id
-  hoverOff(e)
-  removeHovers(elts);
+  hide($((".proj:not(#".concat(target.id)).concat(")")));
+  removeHovers($((".proj:not(#".concat(target.id)).concat(")")));
+  removeHovers($("#".concat(target.id)), labelalpha=1);
   for(i=0;i<elts.length;i++){
     if (elts[i] == target) {
       gsap.to(target, {duration: transTime, 
-        top: "calc(3vh + ".concat(projPlacement.toString()).concat("vmin)"), 
-        width: "calc(0vw + 4vmin)", height: "calc(0vw + 4vmin)", left: "50vw" });
+        top: projYPlacement.toString().concat("vw"), autoAlpha: 1, display: "block"});
+      gsap.to(target.nextElementSibling, {duration: transTime, 
+        top: (projYPlacement - 4.5).toString().concat("vw"), autoAlpha: 1, display: "block"});
       gsap.to(target.nextElementSibling.nextElementSibling, {duration: 0, 
-        top: "calc(3vh + ".concat(sectPlacement.toString()).concat("vmin)")})
+        top: sectPlacement.toString().concat("vw")})
       gsap.to(target.nextElementSibling.nextElementSibling, {duration: transTime, 
         autoAlpha: 1, display: "block"})
     }
     else {
-      hide(elts[i]);
-      hoverOff(elts[i]);
+      window.scrollTo({ top: 0 });
+      gsap.to(elts[i], {duration: transTime, top: projYPlacement.toString().concat("vw")});
+      gsap.to(elts[i].nextElementSibling, {duration: transTime, top: (projYPlacement - 4.5).toString().concat("vw"),
+        left: (projXPlacement + 6).toString().concat("vw"), delay: transTime});
     }
   }
   for(i=0;i<menuElts.length;i++){
@@ -191,7 +195,7 @@ function setUpHovers(elts) {
   for(i=0;i<elts.length;i++){
     $(elts[i]).on("mouseenter", hover);
     $(elts[i]).on("mouseleave", hoverOff);
-    $(elts[i].nextElementSibling).on("click", function(e) {console.log(e); selectWrap(e.target.previousElementSibling);});
+    $(elts[i].nextElementSibling).on("click", function(e) { selectWrap(e.target.previousElementSibling);});
   }
 }
 
@@ -225,7 +229,7 @@ async function checkPage() {
         $(category).off("click");
         $(category).on("click", selectWrap);
         $(category).click();
-        setTimeout(function(){removeHovers($(".proj"))}, transTime*1000);
+        removeHovers($(category), labelalpha=1);
       }
       $(page).off("click");
       $(page).on("click", selectWrap);
@@ -249,6 +253,12 @@ async function startUp() {
 
   gsap.to("#home", dotRotation);
   gsap.to(".menu", dotRotation);
+
+  var projElts = $(".proj");
+  for(i=0;i<projElts.length;i++){
+    gsap.to(projElts[i], {duration: 0, xPercent: "-50", yPercent: "-50", x:0, y:0, z:0, 
+      rotation: Math.floor(Math.random() * 360)});
+  }
   
   transTime = 0;
   menuSetUp();
@@ -256,12 +266,6 @@ async function startUp() {
   transTime = defaultTransTime
   
   gsap.to("#content", {duration: transTime, autoAlpha: 1});
-  
-  var projElts = $(".proj");
-  for(i=0;i<projElts.length;i++){
-    gsap.to(projElts[i], {duration: 0, xPercent: "-50", yPercent: "-50", x:0, y:0, z:0, 
-      rotation: Math.floor(Math.random() * 360)});
-  }
 }
 
 startUp();

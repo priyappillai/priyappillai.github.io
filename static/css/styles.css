@@ -16,7 +16,7 @@ body {
   background-color: var(--black);
   color: white;
   color: var(--white);
-  font-size: 3vmin;
+  font-size: 2.1vw;
 }
 
 #content {
@@ -93,10 +93,11 @@ h4 {
 }
 
 p {
+  margin-top: 5vw;
   margin-bottom: 0;
   float: left;
   text-align: left;
-  margin-left: 15vw;
+  margin-left: 10vw;
   margin-right: 55vw;
 }
 
@@ -149,18 +150,19 @@ figure {
 }
 
 .preview {
-  max-width: 35%;
-  max-height: 60vh;
+  max-width: 35vw;
+  max-height: 55vh;
   border-radius: 50%;
   display: block;
-  top: -2vmin;
-  left: 68vw;
-  transform: translateX(-50%);
+  top: -4vw;
+  left: 50vw;
   position: absolute;
 }
 
 .logo {
   opacity: .75;
+  width: 3vw;
+  height: 3vw;
 }
 
 .dot {
