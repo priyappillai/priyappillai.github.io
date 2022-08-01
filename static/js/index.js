@@ -225,16 +225,12 @@ async function checkPage() {
         $(category).off("click");
         $(category).on("click", selectWrap);
         $(category).click();
-        if (!isMobile.any()) {
-          setTimeout(function(){removeHovers($(".proj"))}, transTime*1000)
-        };
+        setTimeout(function(){removeHovers($(".proj"))}, transTime*1000);
       }
       $(page).off("click");
       $(page).on("click", selectWrap);
       $(page).click();
-      if (!isMobile.any()) {
-        setTimeout(function(){removeHovers(menuElts)}, transTime*1000)
-      };
+      setTimeout(function(){removeHovers(menuElts)}, transTime*1000);
     }
 }
 

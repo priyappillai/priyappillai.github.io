@@ -101,16 +101,35 @@ p {
 }
 
 a {
+  display: inline-block;
+  position: relative;
   color: pink;
   color: var(--pink);
   background: -webkit-linear-gradient(left, var(--pink), var(--yellow), var(--blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-decoration-line: underline;
+  text-decoration-line: none;
+  transition: 0.2s;
 }
 
-a:hover{
-  -webkit-text-fill-color: rgba(0,0,0,.3);
+a:not(.imagelink)::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: .07em;
+  height: .05em;
+  width: 100%;
+  background: -webkit-linear-gradient(left, var(--pink), var(--yellow), var(--blue));
+  z-index: -1;
+  transition: 0.2s;
+}
+
+a:hover {
+  opacity: .7;
+}
+
+a:hover::after {
+  opacity: .7;
 }
 
 section {
@@ -146,7 +165,8 @@ figure {
 
 .dot {
   border-radius: 50%;
-  color: #333;
+  border: 0px;
+  background-color: transparent;
   background-position: center;
   background-size: cover;
   transform: translate(-50%,-50%);
